@@ -160,7 +160,11 @@ def do_symlog_obs(observation_space, symlog_obs_user_setting):
 
     # TODO (sven): Support mixed observation spaces.
 
-    is_image_space = len(observation_space.shape) in [2, 3]
+    if isinstance(observation_space, Dict):
+        is_image_space = len(observation_space.shape) in [2, 3]
+    else:
+        is_image_space = len(next(iter(observation_space)).shape) in [2, 3]
+        
     return (
         not is_image_space
         if symlog_obs_user_setting == "auto"
